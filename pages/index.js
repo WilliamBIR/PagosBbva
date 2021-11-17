@@ -9,10 +9,12 @@ import PaginationQueryTable from './components/PaginationQueryTable';
 import PaginationTable from './components/Paginationtable';
 
 
-export default function Home({canciones, totalCanciones}) {  
+export default function Home() {  
 
-  const [page, setPage] = useState(38);
+  const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
+  const [limmax,setLimmax]=useState(40)
+  const registros=200
   const skips = (page-1)*perPage;
   console.log('page='+page+ ' perPage='+perPage+' skips='+skips);
   const { data: pagos1 } = usePagos(skips,perPage);
@@ -74,34 +76,19 @@ export default function Home({canciones, totalCanciones}) {
   );
 
   const previousPage=()=>{
-    
     setPage(prevPage =>prevPage-1)
-    console.log('page='+page+ ' perPage='+perPage+' skips='+skips);
-  
-    if(page===2){
-      console.log("a")
-      setPrevious(false)
-    }
-    else{
-      setNext(true)
-      setPrevious(true)
-    }
   }
 
   
   const nextPage=()=>{
     setPage(prevPage =>prevPage+1)
-    console.log('page='+page+ ' perPage='+perPage+' skips='+skips);
-  
-    if(page>=40){
-      setNext(false)
-    }
-    else{
-      setNext(true)
-      setPrevious(true)  
-    }
   }
 
+    const Cambiarlimite=(e)=>{
+        setPerPage(e.target.value)
+        setLimmax(registros/e.target.value)
+        setPage((skips/e.target.value)+1)
+    }
 
   return (
     <Styles>
@@ -109,10 +96,15 @@ export default function Home({canciones, totalCanciones}) {
       columns={columns} 
       data={pagosMemo}
       />
+        <select onChange={Cambiarlimite}>
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+        </select>
       <button onClick={() => previousPage()} disabled={page===1 ? true:false}>
         Previous page{" "}
       </button>
-      <button onClick={() => nextPage()} disabled={page===40 ? true:false}>
+      <button onClick={() => nextPage()} disabled={page===limmax ? true:false}>
         Next page{" "}
       </button>
     </Styles>
