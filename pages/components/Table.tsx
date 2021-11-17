@@ -15,10 +15,18 @@ export default function BasicTable({ columns, data }) {
     columns,
     data
   });
-  
+  const styles = {
+    thead: {
+      backgroundColor: "blue"
+    },
+    td: {
+      padding: "10px",
+      border: "dotted 1px black"
+    }
+  };
   return (
     <table {...getTableProps()}>
-      <thead>
+      <thead style={styles.thead}>
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
@@ -33,7 +41,7 @@ export default function BasicTable({ columns, data }) {
           return (
             <tr {...row.getRowProps()}>
               {row.cells.map((cell) => {
-                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
+                return <td {...cell.getCellProps()} style={styles.td} >{cell.render("Cell")}</td>;
               })}
             </tr>
           );
