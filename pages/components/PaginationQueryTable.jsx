@@ -3,15 +3,14 @@ import React from 'react';
 import { useTable, usePagination, useFilters } from 'react-table';
 import ColumnFilter from "./ColumnFilter";
 
-export default function Table ({ setPerPage, setPage, columns, data, currentpage, perPage }) {
+export default function Table ({columns, data,perPage }) {
     const defaultColumn = React.useMemo(
-          () => ({
-            // Let's set up our default Filter UI
-            Filter: ColumnFilter
-          }),
-          []
-        );
-  
+        () => ({
+          // Let's set up our default Filter UI
+          Filter: ColumnFilter,
+        }),
+        []
+      );  
     const {
     getTableProps,
     getTableBodyProps,
@@ -26,37 +25,23 @@ export default function Table ({ setPerPage, setPage, columns, data, currentpage
     {
       columns,
       data,
-      useControlledState: (state) => {
-        return React.useMemo(
-          () => ({
-            ...state,
-            pageIndex: currentpage,
-          }),
-          [state, currentpage]
-        );
-      },
-      initialState: { pageIndex: currentpage }, // Pass our hoisted table state
-      manualPagination: true
+      defaultColumn,
+      initialState: { pageSize: perPage },
     },
+    useFilters,
     usePagination
   );
 
   return (
-    <>
-      <table {...getTableProps()} >
+    <div>
+      <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.slice(0, 1).map((column) => (
+              {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                </th>
-              ))}
-              {headerGroup.headers.slice(1).map((column) => (
-                <th
-                  {...column.getHeaderProps()}
-                >
-                  {column.render('Header')}
+                  <div>{column.canFilter ? column.render("Filter") : null}</div>
+                  {column.render("Header")}
                 </th>
               ))}
             </tr>
@@ -69,9 +54,7 @@ export default function Table ({ setPerPage, setPage, columns, data, currentpage
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>
-                      {cell.render('Cell')}
-                    </td>
+                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                   );
                 })}
               </tr>
@@ -79,7 +62,6 @@ export default function Table ({ setPerPage, setPage, columns, data, currentpage
           })}
         </tbody>
       </table>
-
-    </>
+      </div>
   );
 }

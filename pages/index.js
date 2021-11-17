@@ -101,6 +101,7 @@ export default function Home() {
       <PaginationQueryTable 
       columns={columns} 
       data={pagosMemo}
+      perPage={perPage}
       />
         <select onChange={Cambiarlimite}>
             <option value={10}>10</option>
@@ -113,7 +114,7 @@ export default function Home() {
       <button onClick={() => nextPage()} disabled={page===limmax ? true:false}>
         Next page{" "}
       </button>
-      Pagina {page} de {limmax}
+      Pagina {parseInt(page)} de {limmax}
     </Styles>
   )
 }
