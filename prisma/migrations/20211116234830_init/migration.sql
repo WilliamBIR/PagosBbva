@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `pagos` MODIFY `fecha` VARCHAR(255) NOT NULL DEFAULT '';

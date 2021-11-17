@@ -1,0 +1,31 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model pagos {
+  id                                  String  @id @db.VarChar(255)
+  fecha                               String?  @db.VarChar(255) 
+  forma                               String?  @db.VarChar(255)
+  forma_pago_nombre                   String?  @db.VarChar(255)
+  receptor                            String?  @db.VarChar(255)
+  receptor_nombre                     String?  @db.VarChar(255)
+  monto                               String?  @db.VarChar(255)
+  monto_recibido                      String?  @db.VarChar(255)
+  num_operacion                       String?  @db.VarChar(255)
+  cuenta_bancaria_movimiento          String?  @db.VarChar(255)
+  cuenta_bancaria_movimiento_nombre   String?  @db.VarChar(255)
+  status_pago                         String?  @db.VarChar(255)
+  status_pago_nombre                  String?  @db.VarChar(255)
+  comprobante_pagado                  String?  @db.VarChar(255)
+  empresa                             String?  @db.VarChar(255)
+  empresa_nombre                      String?  @db.VarChar(255)
+  fecha_qn                            String?  @db.VarChar(255)
+}

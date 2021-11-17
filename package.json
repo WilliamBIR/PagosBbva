@@ -1,0 +1,30 @@
+{
+  "name": "tablabbva",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.5.0",
+    "next": "12.0.4",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-table": "^7.7.0",
+    "styled-components": "^5.3.3"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^16.11.7",
+    "@types/react": "^17.0.35",
+    "eslint": "7.32.0",
+    "eslint-config-next": "12.0.4",
+    "prisma": "^3.5.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
+  }
+}
