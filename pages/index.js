@@ -7,6 +7,8 @@ import usePagos from './hooks/usePagos';
 //import Table from './components/Table';
 import PaginationQueryTable from './components/PaginationQueryTable';
 import PaginationTable from './components/Paginationtable';
+import Emisor from './components/Emisor';
+import CuentaBancaria from './components/CuentaBancaria';
 
 
 export default function Home() {  
@@ -16,9 +18,9 @@ export default function Home() {
   const [limmax,setLimmax]=useState(40)
   const registros=200
   const skips = (page-1)*perPage;
-  console.log('page='+page+ ' perPage='+perPage+' skips='+skips);
+  //console.log('page='+page+ ' perPage='+perPage+' skips='+skips);
   const { data: pagos1 } = usePagos(skips,perPage);
-  console.log(pagos1);
+  //console.log(pagos1);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const lista = pagos1 ?? [];
 
@@ -92,6 +94,10 @@ export default function Home() {
 
   return (
     <Styles>
+      <p>
+      <Emisor/>
+      <CuentaBancaria/>
+      </p>
       <PaginationQueryTable 
       columns={columns} 
       data={pagosMemo}
