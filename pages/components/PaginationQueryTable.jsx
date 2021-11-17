@@ -1,9 +1,18 @@
 /* eslint-disable react/jsx-key */
 import React from 'react';
-import { useTable, usePagination } from 'react-table';
+import { useTable, usePagination, useFilters } from 'react-table';
+import ColumnFilter from "./ColumnFilter";
 
 export default function Table ({ setPerPage, setPage, columns, data, currentpage, perPage }) {
-  const {
+    const defaultColumn = React.useMemo(
+          () => ({
+            // Let's set up our default Filter UI
+            Filter: ColumnFilter
+          }),
+          []
+        );
+  
+    const {
     getTableProps,
     getTableBodyProps,
     headerGroups,

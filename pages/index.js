@@ -14,9 +14,9 @@ import CuentaBancaria from './components/CuentaBancaria';
 export default function Home() {  
 
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
-  const [limmax,setLimmax]=useState(40)
+  const [perPage, setPerPage] = useState(10);
   const registros=200
+  const [limmax,setLimmax]=useState(registros/perPage)
   const skips = (page-1)*perPage;
   //console.log('page='+page+ ' perPage='+perPage+' skips='+skips);
   const { data: pagos1 } = usePagos(skips,perPage);
@@ -103,9 +103,9 @@ export default function Home() {
       data={pagosMemo}
       />
         <select onChange={Cambiarlimite}>
-            <option value={5}>5</option>
             <option value={10}>10</option>
-            <option value={20}>20</option>
+            <option value={25}>25</option>
+            <option value={100}>100</option>
         </select>
       <button onClick={() => previousPage()} disabled={page===1 ? true:false}>
         Previous page{" "}
@@ -113,6 +113,7 @@ export default function Home() {
       <button onClick={() => nextPage()} disabled={page===limmax ? true:false}>
         Next page{" "}
       </button>
+      Pagina {page} de {limmax}
     </Styles>
   )
 }

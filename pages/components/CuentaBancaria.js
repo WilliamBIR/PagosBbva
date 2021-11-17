@@ -61,7 +61,7 @@ export default function CuentaBancaria(){
             }
             else if(e.key==="Enter"){
           //      console.log(misDatos[ControlLista].Nombre)
-                setUser(misDatos[ControlLista].empresa_nombre)
+                setUser(misDatos[ControlLista].cuenta_bancaria_movimiento)
                 setControl(0)
                 document.getElementById('ListaCu').style.display='none'; 
 
