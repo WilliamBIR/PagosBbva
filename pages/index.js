@@ -18,8 +18,21 @@ export default function Home() {
   const registros=200
   const [limmax,setLimmax]=useState(registros/perPage)
   const skips = (page-1)*perPage;
+  
+  const [Id,setId]=useState('')
+  const [Fecha,setFecha]=useState('')
+  const [Num_operacion,setNumop]=useState('')
+  const [Comprobante,setComprobante]=useState('')
+  const[Empresa,setEmpresa]=useState('')
+  const[Receptor,setReceptor]=useState('')
+  const[Monto,setMonto]=useState('')
+  const[Monto_recibido,setMontoRec]=useState('')
+  const [Movimiento,setMovimiento]=useState('')
+  const [Status,setStatus]=useState('Tenemos el dinero')
+
+
   //console.log('page='+page+ ' perPage='+perPage+' skips='+skips);
-  const { data: pagos1 } = usePagos(skips,perPage);
+  const { data: pagos1 } = usePagos(skips,perPage,Id,Fecha,Num_operacion,Comprobante,Empresa,Receptor,Monto,Monto_recibido,Movimiento,Status);
   //console.log(pagos1);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const lista = pagos1 ?? [];
@@ -92,12 +105,70 @@ export default function Home() {
         setPage((skips/e.target.value)+1)
     }
 
+    const CambiarStatus=(e)=>{
+      setStatus(e.target.value)
+      console.log(e.target.value)
+    }
+
+    const handleID= e =>{
+      setId(e.target.value)
+      }
+    
+    const handleFecha=e=>{
+      setFecha(e.target.value)
+    }
+
+    const handleNumOper=e=>{
+      setNumop(e.target.value)
+    }
+    const handlecomprobantepagado=e=>{
+      setComprobante(e.target.value)
+    }
+    const handleempresa=e=>{
+      setEmpresa(e.target.value)
+    }
+    const handlereceptor=e=>{
+      setReceptor(e.target.value)
+    }
+    const handlemonto=e=>{
+      setMonto(e.target.value)
+    }
+
+    const handlemontorecibido=e=>{
+      setMontoRec(e.target.value)
+    }
+    const handlemovimiento=e=>{
+      setMovimiento(e.target.value)
+    }
+
+
   return (
     <Styles>
-      <p>
       <Emisor/>
       <CuentaBancaria/>
-      </p>
+      <p>
+      <input type="text" onChange={handleID} id="ID" ></input>
+      <input type="text" onChange={handleFecha} id="Fecha" ></input>
+      <input type="text" onChange={handleNumOper} id="NumOper" ></input>
+      <input type="text" onChange={handlecomprobantepagado} id="comprobantepagado" ></input>
+      <input type="text" onChange={handleempresa} id="empresa" ></input>
+      <input type="text" onChange={handlereceptor} id="receptor" ></input>
+      <input type="text" onChange={handlemonto} id="monto" ></input>
+      <input type="text" onChange={handlemontorecibido} id="montorecibido" ></input>
+      <input type="text" onChange={handlemovimiento} id="movimiento" ></input>
+
+      
+
+      <select onChange={CambiarStatus}>
+            <option value='Tenemos el dinero'>Tenemos el dinero</option>
+            <option value='Salvo buen cobro'>Salvo buen cobro</option>
+            <option value='Tenemos documento'>Tenemos documento</option>
+            <option value='Tenemos promesa de pago'>Tenemos promesa de pago</option>
+            <option value='Ejercimos garantia'>Ejercimos garantia</option>
+            <option value='Cancelado'>Cancelado</option>
+
+        </select>
+        </p>
       <PaginationQueryTable 
       columns={columns} 
       data={pagosMemo}
