@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import BasicTable from './components/Table'
 import { useState } from 'react'
 import usePagos from './hooks/usePagos';
+import usePagos2 from './hooks/usePagos2';
 //import { useQuery } from 'react-query';
 //import Table from './components/Table';
 import PaginationQueryTable from './components/PaginationQueryTable';
@@ -14,26 +15,31 @@ import CuentaBancaria from './components/CuentaBancaria';
 export default function Home() {  
 
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(10);
-  const registros=200
-  const [limmax,setLimmax]=useState(registros/perPage)
+  const [perPage, setPerPage] = useState(5);
+
   const skips = (page-1)*perPage;
   
-  const [Id,setId]=useState('')
-  const [Fecha,setFecha]=useState('')
-  const [Num_operacion,setNumop]=useState('')
-  const [Comprobante,setComprobante]=useState('')
-  const[Empresa,setEmpresa]=useState('')
-  const[Receptor,setReceptor]=useState('')
-  const[Monto,setMonto]=useState('')
-  const[Monto_recibido,setMontoRec]=useState('')
-  const [Movimiento,setMovimiento]=useState('')
+  const [Id,setId]=useState()
+  const [Fecha,setFecha]=useState()
+  const [Num_operacion,setNumop]=useState()
+  const [Comprobante,setComprobante]=useState()
+  const[Empresa,setEmpresa]=useState()
+  const[Receptor,setReceptor]=useState()
+  const[Monto,setMonto]=useState()
+  const[Monto_recibido,setMontoRec]=useState()
+  const [Movimiento,setMovimiento]=useState()
   const [Status,setStatus]=useState('Tenemos el dinero')
-
+  const [Modo,setModo]=useState('asc')
 
   //console.log('page='+page+ ' perPage='+perPage+' skips='+skips);
-  const { data: pagos1 } = usePagos(skips,perPage,Id,Fecha,Num_operacion,Comprobante,Empresa,Receptor,Monto,Monto_recibido,Movimiento,Status);
-  //console.log(pagos1);
+  const { data: pagos1 } = usePagos(skips,perPage,Id,Fecha,Num_operacion,Comprobante,Empresa,Receptor,Monto,Monto_recibido,Movimiento,Status,Modo);
+  console.log(pagos1)
+  
+  
+  const {data:registros}= usePagos2(skips,perPage,Id,Fecha,Num_operacion,Comprobante,Empresa,Receptor,Monto,Monto_recibido,Movimiento,Status);
+  
+  var limmax=parseInt(registros/perPage)
+  //console.log(registros+"   "+ limmax)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const lista = pagos1 ?? [];
 
@@ -92,6 +98,9 @@ export default function Home() {
 
   const previousPage=()=>{
     setPage(prevPage =>prevPage-1)
+    if(page<=1){
+      setPage(1)
+    }
   }
 
   
@@ -101,44 +110,76 @@ export default function Home() {
 
     const Cambiarlimite=(e)=>{
         setPerPage(e.target.value)
-        setLimmax(registros/e.target.value)
+        limmax=registros/e.target.value
         setPage((skips/e.target.value)+1)
     }
 
     const CambiarStatus=(e)=>{
       setStatus(e.target.value)
+      setPage(1)
       console.log(e.target.value)
     }
 
     const handleID= e =>{
       setId(e.target.value)
+      if(e.target.value===""){
+        setId()
+      }
       }
     
     const handleFecha=e=>{
       setFecha(e.target.value)
+      if(e.target.galue===''){
+        setFecha()
+      }
     }
 
     const handleNumOper=e=>{
       setNumop(e.target.value)
+      if(e.target.value===''){
+        setNumop()
+      }
     }
     const handlecomprobantepagado=e=>{
       setComprobante(e.target.value)
+      if(e.target.value===''){
+        setComprobante()
+      }
     }
     const handleempresa=e=>{
       setEmpresa(e.target.value)
+      if(e.target.value===''){
+        setEmpresa()
+      }
     }
     const handlereceptor=e=>{
       setReceptor(e.target.value)
+      if(e.target.value===''){
+        setReceptor()
+      }
     }
     const handlemonto=e=>{
       setMonto(e.target.value)
+      if(e.target.value===''){
+        setMonto()
+      }
     }
 
     const handlemontorecibido=e=>{
       setMontoRec(e.target.value)
+      if(e.target.value===''){
+        setMontoRec()
+      }
     }
     const handlemovimiento=e=>{
       setMovimiento(e.target.value)
+      if(e.target.value===''){
+        setMovimiento()
+      }
+    }
+
+    const CambiarModo=e=>{
+      setModo(e.target.value)
     }
 
 
@@ -152,6 +193,10 @@ export default function Home() {
       <input type="text" onChange={handleNumOper} id="NumOper" ></input>
       <input type="text" onChange={handlecomprobantepagado} id="comprobantepagado" ></input>
       <input type="text" onChange={handleempresa} id="empresa" ></input>
+      <select onChange={CambiarModo}>
+            <option value='asc'>Ascendente</option>
+            <option value='desc'>Descendente</option>
+      </select>
       <input type="text" onChange={handlereceptor} id="receptor" ></input>
       <input type="text" onChange={handlemonto} id="monto" ></input>
       <input type="text" onChange={handlemontorecibido} id="montorecibido" ></input>
@@ -172,17 +217,16 @@ export default function Home() {
       <PaginationQueryTable 
       columns={columns} 
       data={pagosMemo}
-      perPage={perPage}
       />
         <select onChange={Cambiarlimite}>
+            <option value={5}>5</option>
             <option value={10}>10</option>
-            <option value={25}>25</option>
-            <option value={100}>100</option>
+            <option value={20}>20</option>
         </select>
       <button onClick={() => previousPage()} disabled={page===1 ? true:false}>
         Previous page{" "}
       </button>
-      <button onClick={() => nextPage()} disabled={page===limmax ? true:false}>
+      <button onClick={() => nextPage()} disabled={limmax>page ? false:true}>
         Next page{" "}
       </button>
       Pagina {parseInt(page)} de {limmax}

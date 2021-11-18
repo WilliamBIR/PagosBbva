@@ -5,13 +5,11 @@ import { PrismaClient } from '@prisma/client'
 
 export default async function handle(req , res) {
   const {Otro}=req.body
-  //console.log(Nombre+ " "+ Otro.queryKey[1])
-  //console.log(Otro.queryKey[1])
   try{
   const misDatos = await prisma.pagos.findMany({
-    distinct:['cuenta_bancaria_movimiento'],  
+    distinct:['cuenta_bancaria_movimiento_nombre'],  
     where:{
-        cuenta_bancaria_movimiento:{
+        cuenta_bancaria_movimiento_nombre:{
           contains:Otro.queryKey[1],
         },
         

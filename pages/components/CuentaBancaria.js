@@ -26,9 +26,8 @@ export default function CuentaBancaria(){
     const[ListaUsuarios,setUsuarios]=useState([])
     const[ControlLista,setControl]=useState(0)
     const[Mensaje,setMensaje]=useState('')
-    const Limite=5
+    const Limite=1
     const {data: misDatos}=useQuery(["misDatos",User],fetchmisDatosRequest)
- 
     const handleInputChange= e =>{   
         setMensaje('')
         setUsuarios(misDatos)              
@@ -61,7 +60,7 @@ export default function CuentaBancaria(){
             }
             else if(e.key==="Enter"){
           //      console.log(misDatos[ControlLista].Nombre)
-                setUser(misDatos[ControlLista].cuenta_bancaria_movimiento)
+                setUser(misDatos[ControlLista].cuenta_bancaria_movimiento_nombre)
                 setControl(0)
                 document.getElementById('ListaCu').style.display='none'; 
 
@@ -85,7 +84,7 @@ export default function CuentaBancaria(){
             <ul id="ListaCu" style={{display:"none"}}>
             {misDatos && misDatos.map((Dato,i)=>{
                 return(
-                    <li  key={Dato.cuenta_bancaria_movimiento+i} onClick={()=>Clickenopciones(Dato.cuenta_bancaria_movimiento)} value={Dato.cuenta_bancaria_movimiento}   style={{display: i<=Limite ? "list-item":"none", background: i===ControlLista ? "aquamarine":"white"}}>{Dato.cuenta_bancaria_movimiento} </li>
+                    <li  key={Dato.cuenta_bancaria_movimiento_nombre+i} onClick={()=>Clickenopciones(Dato.cuenta_bancaria_movimiento_nombre)} value={Dato.cuenta_bancaria_movimiento_nombre}   style={{display: i<=Limite ? "list-item":"none", background: i===ControlLista ? "aquamarine":"white"}}>{Dato.cuenta_bancaria_movimiento_nombre} </li>
                 )
             })}
             </ul>

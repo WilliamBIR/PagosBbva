@@ -16,7 +16,7 @@ export default function PaginationTable({ columns, data }) {
   const {
     getTableProps, // table props from react-table
     getTableBodyProps, // table body props from react-table
-    headerGroups, // headerGroups, if your table has groupings
+    headerGroups, // headerGroups, if your tble has groupings
     page, // fetch the current page
     nextPage,
     previousPage,

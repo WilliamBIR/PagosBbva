@@ -1,11 +1,10 @@
-
- import React from "react";
+import React from "react";
  import { useQuery } from "react-query";
  //import prisma from '../../lib/prisma';
  import { PrismaClient } from "@prisma/client";
  
- export default function useCanciones(skip, take,Id,Fecha,Num_operacion,Comprobante,Empresa,Receptor,Monto,Monto_recibido,Movimiento,Status,Modo) {
-   const link = `http://localhost:3000/api/obtenDatos?skip=${skip}&take=${take}`;
+ export default function useCuantos(skip, take,Id,Fecha,Num_operacion,Comprobante,Empresa,Receptor,Monto,Monto_recibido,Movimiento,Status) {
+   //const link = `http://localhost:3000/api/obtenDatos?skip=${skip}&take=${take}`;
    
 
    const datosfiltros={
@@ -18,11 +17,10 @@
      Monto,
      Monto_recibido,
      Movimiento,
-     Status,
-     Modo
+     Status
    }
    //console.log(datosfiltros)
-     //const link="http://localhost:3000/api/obtenDatos"
+    const link="http://localhost:3000/api/obtenCuantos"
    return useQuery(
          ['canciones',datosfiltros, link],
          async () => {
