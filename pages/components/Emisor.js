@@ -1,7 +1,7 @@
 import axios from "axios";
 import React,{useState,useContext} from "react";
 import {useQuery, useMutation, queryCache, QueryClient} from "react-query";
-import CuentaBancaria from "./CuentaBancaria";
+import {AppContext} from "../application/provider" 
 
 
 const fetchmisDatosRequest = async(User)=>{
@@ -28,8 +28,9 @@ export default function Emisor(){
     const[ControlLista,setControl]=useState(0)
     const[Mensaje,setMensaje]=useState('')
     const Limite=5
+    const [Emisor1,setEmisor1]= useContext(AppContext)
     const {data: misDatos}=useQuery(["misDatos",User],fetchmisDatosRequest)
- 
+    //console.log( "Emisor" +Emisor1.Emisor2)
     const handleInputChange= e =>{   
         setMensaje('')
         setUsuarios(misDatos)              
@@ -39,12 +40,20 @@ export default function Emisor(){
         if(e.target.value.length===0){
             document.getElementById('ListaUs').style.display='none';
             setUsuarios([]);
-
+            //setEmisor1()
+            setEmisor1(prevEmisor1=>({
+                ...prevEmisor1,
+                ["Emisor2"]:undefined
+            }))
         }
         else{
             document.getElementById('ListaUs').style.display='list-item';
             setUser(e.target.value)
             //BuscaUsuario(e.target.value)
+            setEmisor1(prevEmisor1=>({
+                ...prevEmisor1,
+                ["Emisor2"]:e.target.value
+            }))
             }
                 
         }
@@ -66,7 +75,11 @@ export default function Emisor(){
                 setUser(misDatos[ControlLista].empresa_nombre)
                 setControl(0)
                 document.getElementById('ListaUs').style.display='none'; 
-
+     //           setEmisor1(misDatos[ControlLista].empresa_nombre)
+                 setEmisor1(prevEmisor1=>({
+                ...prevEmisor1,
+                ["Emisor2"]:misDatos[ControlLista].empresa_nombre
+            }))
             }
             }
     
@@ -75,6 +88,11 @@ export default function Emisor(){
                 setMensaje('')
                 setUser(tabla);
                 setControl(0)
+                setEmisor1(prevEmisor1=>({
+                    ...prevEmisor1,
+                    ["Emisor2"]:tabla
+                }))
+                //setEmisor1(tabla)
             }
         
     
@@ -82,7 +100,7 @@ export default function Emisor(){
     return(
         <div>
             Emisor: 
-            <input onChange={handleInputChange} onKeyDown={Teclapresionada}   value={User} id="Usuarios" name="usuarios" type="search" placeholder="Search" ></input>
+            <input onChange={handleInputChange} onKeyDown={Teclapresionada} value={User}   id="Usuarios" name="usuarios" type="search" placeholder="Search" ></input>
             {Mensaje}
             <ul id="ListaUs" style={{display:"none"}}>
             {misDatos && misDatos.map((Dato,i)=>{

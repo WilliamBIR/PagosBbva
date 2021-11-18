@@ -7,9 +7,9 @@ export default async function handle(req , res) {
   const {Otro}=req.body
   try{
   const misDatos = await prisma.pagos.findMany({
-    distinct:['cuenta_bancaria_movimiento_nombre'],  
+    distinct:['cuenta_bancaria_movimiento'],  
     where:{
-        cuenta_bancaria_movimiento_nombre:{
+      cuenta_bancaria_movimiento:{
           contains:Otro.queryKey[1],
         },
         

@@ -1,11 +1,11 @@
 import React from 'react';
-import { useState } from 'react'
+import {useState,useContext} from 'react'
 import usePagos from './hooks/usePagos';
 import usePagos2 from './hooks/usePagos2';
 import PaginationQueryTable from './components/PaginationQueryTable';
-import Emisor from './components/Emisor';
 import CuentaBancaria from './components/CuentaBancaria';
-
+import Emisor from './components/Emisor';
+import { AppContext } from './application/provider';
 
 export default function Home() {  
 
@@ -13,7 +13,7 @@ export default function Home() {
   const [perPage, setPerPage] = useState(5);
 
   const skips = (page-1)*perPage;
-  
+  const [Emisor1,setEmisor1] = useContext(AppContext)
   const [Id,setId]=useState()
   const [Fecha,setFecha]=useState()
   const [Num_operacion,setNumop]=useState()
@@ -25,13 +25,13 @@ export default function Home() {
   const [Movimiento,setMovimiento]=useState()
   const [Status,setStatus]=useState('Tenemos el dinero')
   const [Modo,setModo]=useState('asc')
-
+  console.log(Emisor1)
   //console.log('page='+page+ ' perPage='+perPage+' skips='+skips);
-  const { data: pagos1 } = usePagos(skips,perPage,Id,Fecha,Num_operacion,Comprobante,Empresa,Receptor,Monto,Monto_recibido,Movimiento,Status,Modo);
+  const { data: pagos1 } = usePagos(skips,perPage,Id,Fecha,Num_operacion,Comprobante,Emisor1.Emisor2,Receptor,Monto,Monto_recibido,Emisor1.Movimiento2,Status,Modo);
   console.log(pagos1)
   
   
-  const {data:registros}= usePagos2(skips,perPage,Id,Fecha,Num_operacion,Comprobante,Empresa,Receptor,Monto,Monto_recibido,Movimiento,Status);
+  const {data:registros}= usePagos2(skips,perPage,Id,Fecha,Num_operacion,Comprobante,Emisor1.Emisor2,Receptor,Monto,Monto_recibido,Emisor1.Movimiento2,Status);
   
   var limmax=parseInt(registros/perPage)
   //console.log(registros+"   "+ limmax)
@@ -143,9 +143,18 @@ export default function Home() {
     }
     const handleempresa=e=>{
       setEmpresa(e.target.value)
+      setEmisor1(prevEmisor1=>({
+        ...prevEmisor1,
+        ["Emisor2"]:e.target.value
+      }))
       if(e.target.value===''){
         setEmpresa()
+        setEmisor1(prevEmisor1=>({
+          ...prevEmisor1,
+          ["Emisor2"]:undefined
+      }))
       }
+
     }
     const handlereceptor=e=>{
       setReceptor(e.target.value)
@@ -162,8 +171,16 @@ export default function Home() {
 
     const handlemontorecibido=e=>{
       setMontoRec(e.target.value)
+      setEmisor1(prevEmisor1=>({
+        ...prevEmisor1,
+        ["Movimiento2"]:e.target.value
+    }))
       if(e.target.value===''){
         setMontoRec()
+        setEmisor1(prevEmisor1=>({
+          ...prevEmisor1,
+          ["Movimiento2"]:undefined
+      }))
       }
     }
     const handlemovimiento=e=>{
@@ -180,8 +197,9 @@ export default function Home() {
 
   return (
     <div>
-      <Emisor/>
-      <CuentaBancaria/>
+      
+      <Emisor />
+      <CuentaBancaria />
       <p>
       <input type="text" onChange={handleID} className="ID" ></input>
       <input type="text" onChange={handleFecha} className="Fecha" ></input>
@@ -225,6 +243,7 @@ export default function Home() {
         Next page{" "}
       </button>
       Pagina {parseInt(page)} de {limmax}
+      
       </div>
   )
 }

@@ -12,60 +12,66 @@ a {
   text-decoration: none;
 }
 
+.Emisor{
+  position: relative;
+  left: 200px;
+
+
+}
+
 .ID{
   position: relative;
-  left: 75px;
+  left: 60px;
   width: 40px;
   height: 20px;
-
 }
 
 .Fecha{
   position: relative;
-  left:175px;
+  left:155px;
   width: 70px;
   height: 20px;
 }
 
 .NumOper{
   position: relative;
-  left: 300px;
+  left: 225px;
   width: 100px;
   height: 20px;
 }
 .comprobantepagado{
   position:relative;
-  left:425px;
+  left:290px;
   width: 100px;
   height: 20px;
 }
 .empresa{
   position: relative;
-  left: 525px;
+  left: 350px;
   width: 80px;
   height: 20px;
 }
 .Ascendente{
   position: relative;
-  left:525px;
+  left:350px;
   width: 20px;
   height: 20px;
 }
 .receptor{
   position: relative;
-  left: 615px;
+  left: 400px;
   width: 100px;
   height: 20px;
 }
 .monto{
   position: relative;
-  left:710px;
+  left: 450px;;
   width: 100px;
   height: 20px;
 }
 .montorecibido{
   position: relative;
-  left: 785px;;
+  left: 495px;;
   
   width: 100px;
   height: 20px;
@@ -73,24 +79,30 @@ a {
 .movimiento{
   
   position: relative;
-  left:855px;
-  width: 150px;
+  left:550px;
+  width: 100px;
   height: 20px;
 }
 
-
 .Status{
   position: relative;
-  left:900px;
+  left:580px;
   width: 150px;
   height: 20px;
 }
 
 
 td{
-  width: 300px;
+  width: 150px;
   height: 20px;
   text-align: center;
+  border-style: inset;
+  border-color: black;
+  
+}
+
+table{
+  border-style: inset;
 }
 
 
