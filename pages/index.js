@@ -28,12 +28,13 @@ export default function Home() {
   console.log(Emisor1)
   //console.log('page='+page+ ' perPage='+perPage+' skips='+skips);
   const { data: pagos1 } = usePagos(skips,perPage,Id,Fecha,Num_operacion,Comprobante,Emisor1.Emisor2,Receptor,Monto,Monto_recibido,Emisor1.Movimiento2,Status,Modo);
-  console.log(pagos1)
-  
+  //console.log(pagos1)
+  console.log(page+ "   "+ limmax)
   
   const {data:registros}= usePagos2(skips,perPage,Id,Fecha,Num_operacion,Comprobante,Emisor1.Emisor2,Receptor,Monto,Monto_recibido,Emisor1.Movimiento2,Status);
   
-  var limmax=parseInt(registros/perPage)
+  var limmax=Math.floor(registros/perPage)
+  console.log(page+ "   "+ limmax)
   //console.log(registros+"   "+ limmax)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const lista = pagos1 ?? [];
@@ -106,7 +107,11 @@ export default function Home() {
     const Cambiarlimite=(e)=>{
         setPerPage(e.target.value)
         limmax=registros/e.target.value
-        setPage((skips/e.target.value)+1)
+        const aux=(skips/e.target.value)+1
+        setPage(Math.floor(aux))
+        if(aux<1){
+        setPage(1)
+      }
     }
 
     const CambiarStatus=(e)=>{
@@ -239,7 +244,7 @@ export default function Home() {
       <button onClick={() => previousPage()} disabled={page===1 ? true:false}>
         Previous page{" "}
       </button>
-      <button onClick={() => nextPage()} disabled={limmax>page ? false:true}>
+      <button onClick={() => nextPage()} disabled={limmax>=page ? false:true}>
         Next page{" "}
       </button>
       Pagina {parseInt(page)} de {limmax}

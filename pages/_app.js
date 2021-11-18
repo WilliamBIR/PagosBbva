@@ -4,7 +4,13 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import Provider from './application/provider';
 function MyApp({ Component, pageProps }) {
 
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  })
 
 
   return (
