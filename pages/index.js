@@ -1,13 +1,8 @@
 import React from 'react';
-import styled from 'styled-components'
-import BasicTable from './components/Table'
 import { useState } from 'react'
 import usePagos from './hooks/usePagos';
 import usePagos2 from './hooks/usePagos2';
-//import { useQuery } from 'react-query';
-//import Table from './components/Table';
 import PaginationQueryTable from './components/PaginationQueryTable';
-import PaginationTable from './components/Paginationtable';
 import Emisor from './components/Emisor';
 import CuentaBancaria from './components/CuentaBancaria';
 
@@ -184,27 +179,27 @@ export default function Home() {
 
 
   return (
-    <Styles>
+    <div>
       <Emisor/>
       <CuentaBancaria/>
       <p>
-      <input type="text" onChange={handleID} id="ID" ></input>
-      <input type="text" onChange={handleFecha} id="Fecha" ></input>
-      <input type="text" onChange={handleNumOper} id="NumOper" ></input>
-      <input type="text" onChange={handlecomprobantepagado} id="comprobantepagado" ></input>
-      <input type="text" onChange={handleempresa} id="empresa" ></input>
-      <select onChange={CambiarModo}>
+      <input type="text" onChange={handleID} className="ID" ></input>
+      <input type="text" onChange={handleFecha} className="Fecha" ></input>
+      <input type="text" onChange={handleNumOper} className="NumOper" ></input>
+      <input type="text" onChange={handlecomprobantepagado} className="comprobantepagado" ></input>
+      <input type="text" onChange={handleempresa} className="empresa" ></input>
+      <select onChange={CambiarModo}className="Ascendente">
             <option value='asc'>Ascendente</option>
             <option value='desc'>Descendente</option>
       </select>
-      <input type="text" onChange={handlereceptor} id="receptor" ></input>
-      <input type="text" onChange={handlemonto} id="monto" ></input>
-      <input type="text" onChange={handlemontorecibido} id="montorecibido" ></input>
-      <input type="text" onChange={handlemovimiento} id="movimiento" ></input>
+      <input type="text" onChange={handlereceptor} className="receptor" ></input>
+      <input type="text" onChange={handlemonto} className="monto" ></input>
+      <input type="text" onChange={handlemontorecibido} className="montorecibido" ></input>
+      <input type="text" onChange={handlemovimiento} className="movimiento" ></input>
 
       
 
-      <select onChange={CambiarStatus}>
+      <select onChange={CambiarStatus} className="Status">
             <option value='Tenemos el dinero'>Tenemos el dinero</option>
             <option value='Salvo buen cobro'>Salvo buen cobro</option>
             <option value='Tenemos documento'>Tenemos documento</option>
@@ -230,38 +225,9 @@ export default function Home() {
         Next page{" "}
       </button>
       Pagina {parseInt(page)} de {limmax}
-    </Styles>
+      </div>
   )
 }
 
 
 
-
-const Styles = styled.div`
-  padding: 1rem;
-
-  table {
-    border-spacing: 0;
-    border: 1px solid black;
-
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
-
-    th,
-    td {
-      margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-
-      :last-child {
-        border-right: 0;
-      }
-    }
-  }
-`
