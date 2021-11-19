@@ -1,6 +1,5 @@
-import axios from "axios";
 import React,{useState,useContext} from "react";
-import {useQuery, useMutation, queryCache, QueryClient} from "react-query";
+import {useQuery} from "react-query";
 import {AppContext} from "../application/provider" 
 
 const fetchmisDatosRequest = async(User)=>{
@@ -14,98 +13,43 @@ const fetchmisDatosRequest = async(User)=>{
     })
     const data= await response.json()
     const {misDatos}=data;
-    //console.log("query")
-    //console.log(misDatos)
     return misDatos
   }
 
 
 
 export default function CuentaBancaria(){
-    const[User,setUser]=useState('')
-    const[ListaUsuarios,setUsuarios]=useState([])
-    const[ControlLista,setControl]=useState(0)
-    const[Mensaje,setMensaje]=useState('')
     const [Emisor1,setEmisor1]=useContext(AppContext)
-    const Limite=3
-    //console.log("Movimiento" +Emisor1.Movimiento2)
-    const {data: misDatos}=useQuery(["misDatos",User],fetchmisDatosRequest)
+    const {data: misDatos}=useQuery(["misDatos",Emisor1.Movimiento2],fetchmisDatosRequest)
+    
     const handleInputChange= e =>{   
-        setMensaje('')
-        setUsuarios(misDatos)              
-        setUser(e.target.value);
-        console.log(e.target.value.type)
         if(e.target.value.length===0){
-            document.getElementById('ListaCu').style.display='none';
-            setUsuarios([]);
             setEmisor1(prevEmisor1=>({
                 ...prevEmisor1,
                 ["Movimiento2"]:undefined
             }))
         }
         else{
-            document.getElementById('ListaCu').style.display='list-item';
-            setUser(e.target.value)
             setEmisor1(prevEmisor1=>({
                 ...prevEmisor1,
                 ["Movimiento2"]:e.target.value
             }))
-            //BuscaUsuario(e.target.value)
             }
                 
         }
 
-
-
-        const Teclapresionada=(e)=>{
-            if(e.key==='ArrowDown' &&ControlLista<Limite ){
-                setControl(prevControl =>prevControl+1)
-                if(ControlLista>Limite-1){
-                    setControl(Limite-1)
-                }
-            }
-            else if(e.key==='ArrowUp' &&ControlLista>0){
-                setControl(prevControl =>prevControl-1)
-            }
-            else if(e.key==="Enter"){
-          //      console.log(misDatos[ControlLista].Nombre)
-                setUser(misDatos[ControlLista].cuenta_bancaria_movimiento)
-                //setMovimiento1(misDatos[ControlLista].cuenta_bancaria_movimiento)
-                setEmisor1(prevEmisor1=>({
-                    ...prevEmisor1,
-                    ["Movimiento2"]:misDatos[ControlLista].cuenta_bancaria_movimiento
-                }))
-                setControl(0)
-                document.getElementById('ListaCu').style.display='none'; 
-
-            }
-            }
-    
-            const Clickenopciones=tabla=>{
-                document.getElementById('ListaCu').style.display='none';
-                setMensaje('')
-                setUser(tabla);
-                setEmisor1(prevEmisor1=>({
-                    ...prevEmisor1,
-                    ["Movimiento2"]:tabla
-                }))
-                setControl(0)
-            }
-        
-    
-
     return(
         <div>
             <p>Cuenta Bancaria: 
-            <input type="text" onChange={handleInputChange} onKeyDown={Teclapresionada}   value={User} id="Usuarios" name="usuarios"  placeholder="Search" ></input>
-            {Mensaje}</p>
-            <ul id="ListaCu" style={{display:"none"}}>
+            <input type="text" onChange={handleInputChange} id="CuentaBancaria" list="listacuentabancaria" ></input>
+            </p>
+            <datalist id="listacuentabancaria">
             {misDatos && misDatos.map((Dato,i)=>{
                 return(
-                    <li  key={Dato.cuenta_bancaria_movimiento+i} onClick={()=>Clickenopciones(Dato.cuenta_bancaria_movimiento)} value={Dato.cuenta_bancaria_movimiento}   style={{display: i<=Limite ? "list-item":"none", background: i===ControlLista ? "aquamarine":"white"}}>{Dato.cuenta_bancaria_movimiento} </li>
+                    <option  key={Dato.cuenta_bancaria_movimiento+i}>{Dato.cuenta_bancaria_movimiento} </option>
                 )
             })}
-            </ul>
+            </datalist>
         </div>
     )
 

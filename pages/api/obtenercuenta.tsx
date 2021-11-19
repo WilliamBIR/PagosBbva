@@ -7,6 +7,7 @@ export default async function handle(req , res) {
   const {Otro}=req.body
   try{
   const misDatos = await prisma.pagos.findMany({
+    take: 5,
     distinct:['cuenta_bancaria_movimiento'],  
     where:{
       cuenta_bancaria_movimiento:{
@@ -14,6 +15,7 @@ export default async function handle(req , res) {
         },
         
       },
+      orderBy:{cuenta_bancaria_movimiento:"asc"},
     })
     //console.log(misDatos)
     res.json({misDatos})

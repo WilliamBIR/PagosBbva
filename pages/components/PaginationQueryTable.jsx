@@ -2,7 +2,7 @@
 import React from 'react';
 import { useTable, usePagination } from 'react-table';
 
-export default function Table ({ setPerPage, setPage, columns, data, currentpage, perPage }) {
+export default function Table ({ columns, data, currentpage }) {
   const {
     getTableProps,
     getTableBodyProps,
