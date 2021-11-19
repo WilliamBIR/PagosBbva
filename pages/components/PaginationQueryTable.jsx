@@ -41,7 +41,7 @@ export default function Table ({ columns, data, currentpage }) {
                   {column.render('Header')}
                 </th>
               ))}
-              {headerGroup.headers.slice(1).map((column) => (
+              {headerGroup.headers.slice(1).map((column,i) => (
                 <th
                   {...column.getHeaderProps()}
                 >

@@ -4,6 +4,8 @@ import usePagos from '../hooks/usePagos';
 import usePagos2 from '../hooks/usePagos2';
 import PaginationQueryTable from './PaginationQueryTable';
 import { AppContext } from '../application/provider';
+import { DataGrid } from '@mui/x-data-grid';
+import { Grid } from '@mui/material';
 
 export default function Paginado(){
     const [page, setPage] = useState(1);
@@ -74,6 +76,19 @@ export default function Paginado(){
     []
     );
   
+    const columns2=[
+        {field:"id", headerName:"id",width:70},
+        {field:"fecha_qn", headerName:"fecha_qn",width:120},
+        {field:"num_operacion", headerName:"num_operacion",width:200},
+        {field:"comprobante_pagado", headerName:"comprobante_pagado",width:200},
+        {field:"empresa_nombre", headerName:"empresa_nombre",width:150},
+        {field:"receptor_nombre", headerName:"receptor_nombre",width:150},
+        {field:"monto", headerName:"monto",width:150},
+        {field:"monto_recibido", headerName:"monto_recibido",width:150},
+        {field:"cuenta_bancaria_movimiento", headerName:"cuenta_bancaria_movimiento",width:150},
+        {field:"status_pago_nombre", headerName:"status_pago_nombre",width:150},
+    ]
+
   
     const pagosMemo = React.useMemo(
       () => lista,[lista]
@@ -134,13 +149,11 @@ export default function Paginado(){
         }
       }
       const handleempresa=e=>{
-        setEmpresa(e.target.value)
         setEmisor1(prevEmisor1=>({
           ...prevEmisor1,
           ["Emisor2"]:e.target.value
         }))
         if(e.target.value===''){
-          setEmpresa()
           setEmisor1(prevEmisor1=>({
             ...prevEmisor1,
             ["Emisor2"]:undefined
@@ -162,13 +175,12 @@ export default function Paginado(){
       }
   
       const handlemontorecibido=e=>{
-        setMontoRec(e.target.value)
         setEmisor1(prevEmisor1=>({
           ...prevEmisor1,
           ["Movimiento2"]:e.target.value
       }))
         if(e.target.value===''){
-          setMontoRec()
+
           setEmisor1(prevEmisor1=>({
             ...prevEmisor1,
             ["Movimiento2"]:undefined
@@ -185,11 +197,14 @@ export default function Paginado(){
       const CambiarModo=e=>{
         setModo(e.target.value)
       }
+      const Prueba=e=>{
+          console.log(e)
+      }
   
   
     return (
       <div>
-        <p>
+        <div>
         <input type="text" onChange={handleID} className="ID" ></input>
         <input type="text" onChange={handleFecha} className="Fecha" ></input>
         <input type="text" onChange={handleNumOper} className="NumOper" ></input>
@@ -215,12 +230,30 @@ export default function Paginado(){
               <option value='Cancelado'>Cancelado</option>
   
           </select>
-          </p>
-        <PaginationQueryTable 
+        </div>
+  {/*       <PaginationQueryTable 
         columns={columns} 
         data={pagosMemo}
         />
-          <select onChange={Cambiarlimite}>
+   */}
+
+        
+        <div  style={{ height: (perPage-1)*100, width: '100%' }}>
+        <DataGrid
+        rows={pagosMemo}
+        columns={columns2}
+        //pageSize={perPage}
+        //rowsPerPageOptions={[perPage]}
+        checkboxSelection
+        hideFooterPagination
+        disableColumnFilter
+        disableColumnMenu
+        disableColumnSelector
+        disableDensitySelector
+        disableExtendRowFullWidth
+        onRowClick={Prueba}/>
+        </div>
+        <select onChange={Cambiarlimite}>
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={20}>20</option>
@@ -232,6 +265,7 @@ export default function Paginado(){
           Next page{" "}
         </button>
         Pagina {parseInt(page)} de {limmax}       
+ 
         </div>
     )
 }
